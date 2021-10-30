@@ -54,3 +54,34 @@ class Crzero(object):
             if board[each[0]] == board[each[1]] == board[each[2]]:
                 return board[each[0]]
         return False
+    def main(self, board):
+        """
+        Реализация игры с помощью объединения всех описанных функций
+        :param board: [list] board = list(range(1, 10) // измененный список board после ввода данных пользователем
+        """
+        counter = 0
+        win = False
+        while not win:
+            Crzero.draw_board(self, board)
+            if counter % 2 == 0:
+                Crzero.take_input(self, "X")
+            else:
+                Crzero.take_input(self, "O")
+            counter += 1
+            if counter > 4:
+                tmp = Crzero.check_win(self, board)
+                if tmp:
+                    print(tmp, "выиграл!")
+                    win = True
+                    break
+            if counter == 9:
+                print("Ничья!")
+                break
+        Crzero.draw_board(self, board)
+
+
+help(Crzero)
+a = Crzero()
+a.main(board)
+
+input("Нажмите Enter для выхода!")
