@@ -16,3 +16,41 @@ class Crzero(object):
         for i in range(3):
             print("|", board[0 + i * 3], "|", board[1 + i * 3], "|", board[2 + i * 3], "|")
             print("-" * 13)
+    
+        def take_input(self, player_token):
+        """
+        Ввод данных от пользователя в нашу игру
+        :param player_token: [str]  Х or O // зависит от того, чей сейчас ход
+        ______________
+        - Конструкции <try/except> и <if/else> позволяют ограничить выбор пользователя числами от 1 до 9
+        - Функция изменяет имеющийся список board
+        """
+        valid = False
+        while not valid:
+            player_answer = input("Куда поставим " + player_token + "? ")
+            try:
+                player_answer = int(player_answer)
+            except:
+                print("Некорректный ввод. Вы уверены, что ввели число?")
+                continue
+            if player_answer >= 1 and player_answer <= 9:
+                if (str(board[player_answer - 1]) not in "XO"):
+                    board[player_answer - 1] = player_token
+                    valid = True
+                else:
+                    print("Эта клетка уже занята!")
+            else:
+                print("Некорректный ввод. Введите число от 1 до 9.")
+
+    def check_win(self, board):
+        """
+        Проверка игрового поля
+        :param board: [list] board = list(range(1, 10) // измененный список board после ввода данных пользователем
+        :return: [str] Х or O, board[each[0]] // возвращение выигрышного символа
+        :return: [bool] False // отсутствие выигрышной комбинации
+        """
+        win_coord = ((0, 1, 2), (3, 4, 5), (6, 7, 8), (0, 3, 6), (1, 4, 7), (2, 5, 8), (0, 4, 8), (2, 4, 6))
+        for each in win_coord:
+            if board[each[0]] == board[each[1]] == board[each[2]]:
+                return board[each[0]]
+        return False
